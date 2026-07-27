@@ -6,7 +6,14 @@ import type { StorageAdapter } from "grammy";
 // bot grows. Durable domain data must NOT live here — use the toolkit's
 // persistent storage (see AGENTS.md).
 export interface Session {
-  // example: step?: "awaiting_amount";
+  /** Ephemeral UI state for the current private conversation. */
+  step?: string;
+  draft?: Record<string, string | number>;
+  editingId?: string;
+  exportStart?: string;
+  /** The owner-scoped journal record is serialized by the toolkit's persistent
+   * storage adapter (Redis in Node production / Durable Object in Workers). */
+  journal?: import("./trade-journal.js").Journal;
 }
 
 export type Ctx = BotContext<Session>;
