@@ -1,0 +1,1 @@
+[{"name":"/summary returns the current-week summary","steps":[{"send":{"text":"/summary"},"expect":[{"method":"sendMessage"}]}]}]

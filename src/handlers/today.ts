@@ -1,15 +1,10 @@
 import { Composer } from "grammy";
-
-// SCAFFOLD — generated from the bot blueprint BEFORE the agent runs.
-// Keep a LIVE registration (.command / .callbackQuery / …) so this feature is
-// never an empty stub. Replace the reply body with real logic + copy; if you
-// change the user-facing text, update tests/specs to match EXACTLY.
-// Do NOT rewrite src/bot.ts — buildBot() already auto-loads this module.
-
-const composer = new Composer();
-
-composer.command("today", async (ctx) => {
-  await ctx.reply("Show today's trade summary");
-});
-
+import type { Ctx } from "../bot.js";
+import { registerMainMenuItem } from "../toolkit/index.js";
+import { backKeyboard, isoDay, summaryFor, summaryText } from "../trade-journal.js";
+registerMainMenuItem({ label: "Today", data: "summary:today", order: 30 });
+const composer = new Composer<Ctx>();
+function text(ctx: Ctx) { const day = isoDay(); return summaryText("Today’s summary", summaryFor(ctx, day, day)); }
+composer.command("today", async (ctx) => { await ctx.reply(text(ctx), { reply_markup: backKeyboard() }); });
+composer.callbackQuery("summary:today", async (ctx) => { await ctx.answerCallbackQuery(); await ctx.editMessageText(text(ctx), { reply_markup: backKeyboard() }); });
 export default composer;
