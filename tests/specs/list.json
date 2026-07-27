@@ -1,0 +1,20 @@
+[
+  {
+    "name": "/list",
+    "steps": [
+      {
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Show recent trades with edit/delete options"
+            }
+          }
+        ],
+        "send": {
+          "text": "/list"
+        }
+      }
+    ]
+  }
+]
